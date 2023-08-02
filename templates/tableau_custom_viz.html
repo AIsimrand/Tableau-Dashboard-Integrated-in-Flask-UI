@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Custom Tableau Visualization</title>
+    <!-- Update the links to the Bootstrap CSS and JavaScript files -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS for the loading indicator and container */
+        .loading-indicator {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #666;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1;
+        }
+
+        .tableau-container {
+            position: relative;
+            padding-bottom: 70%; /* Set an appropriate aspect ratio for the container */
+            height: 0;
+            overflow: hidden;
+        }
+
+        #tableauViz {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
+</head>
+<body>
+    <!-- Add Bootstrap container -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Add the loading indicator -->
+                <div class="loading-indicator" id="loadingIndicator">Loading...</div>
+
+                <!-- Use the Bootstrap class for the tableau container -->
+                <div class="tableau-container">
+                    <div id="tableauViz"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function showLoadingIndicator() {
+            document.getElementById("loadingIndicator").style.display = "block";
+        }
+
+        function hideLoadingIndicator() {
+            document.getElementById("loadingIndicator").style.display = "none";
+        }
+
+        function initViz() {
+            var vizUrl = "https://public.tableau.com/views/Task-1_16890872216610/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link"; // Replace with the actual Tableau Public URL
+
+            var containerDiv = document.getElementById("tableauViz");
+            var vizOptions = {
+                hideTabs: true,
+                hideToolbar: true,
+                onFirstInteractive: function () {
+                    hideLoadingIndicator(); // Hide the loading indicator when the dashboard is fully loaded
+                }
+            };
+            var viz = new tableau.Viz(containerDiv, vizUrl, vizOptions);
+
+            showLoadingIndicator(); // Show the loading indicator when the visualization starts loading
+        }
+
+        document.addEventListener("DOMContentLoaded", initViz);
+    </script>
+
+    <!-- Add Bootstrap JS and jQuery (required for Bootstrap components) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
